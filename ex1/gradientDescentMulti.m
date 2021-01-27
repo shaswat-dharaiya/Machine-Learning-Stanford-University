@@ -31,6 +31,21 @@ for iter = 1:num_iters
 
     % Save the cost J in every iteration    
     J_history(iter) = computeCostMulti(X, y, theta);
+    
+    HofTheta = [zeros(47,1)];
+    
+    theta = [theta;zeros(min(size(X)) - length(theta),1)];
+    thetaX = theta'.*X;
+ 
+    HofTheta = sum(thetaX')';
+    numSqr = (HofTheta - y);
+    
+    for i = 1:length(theta)
+      derivative(i) = sum(numSqr.*X(:,i));
+    endfor
+    for i = 1:length(theta)
+      theta(i) = theta(i) - alpha*derivative(i)/m;
+    endfor
 
 end
 
